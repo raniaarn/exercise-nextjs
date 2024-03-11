@@ -8,14 +8,17 @@ export const useMutation = () => {
     isError: false
   });
 
-  const mutate = useCallback(async ({ prefixUrl = "", method = 'POST', payload = {} } = {}) => {
+  const mutate = useCallback(async ({ prefixUrl = "", method = 'POST', payload = {}, headers = {} } = {}) => {
     try {
       const response = await fetch(prefixUrl, {
-        method, 
-        body: JSON.stringify(payload),
+        method,
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+          ...headers,
+        },
+        ... (method != "GET" && {
+          body: JSON.stringify(payload),
+        }),
       })
       const result = await response.json();
       setData({
@@ -23,7 +26,6 @@ export const useMutation = () => {
         data: result,
         isLoading: false,
       });
-      toast.success("berhasil menambahkan notes")
       return { result };
     } catch (error) {
       setData({

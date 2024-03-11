@@ -22,7 +22,7 @@ export default function AddNotes() {
       prefixUrl: "https://paace-f178cafcae7b.nevacloud.io/api/notes",
       payload: notes,
     })
-    console.log(response)
+    toast.success("Berhasil menambahkan notes!")
     router.push('/notes')
   }
 
