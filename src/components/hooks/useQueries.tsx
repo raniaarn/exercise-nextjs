@@ -1,8 +1,14 @@
 import { useCallback, useEffect, useState } from "react"
 
+interface UseQueriesInterface {
+  data: any
+  isLoading: boolean
+  isError: boolean
+}
+
 export const useQueries = ({ prefixUrl = "", headers = {} } = {}) => {
-  const [data, setData] = useState({
-    data: null,
+  const [data, setData] = useState<UseQueriesInterface>({
+    data: undefined,
     isLoading: true,
     isError: false
   });
@@ -31,7 +37,7 @@ export const useQueries = ({ prefixUrl = "", headers = {} } = {}) => {
 
   useEffect(() => {
     if (prefixUrl) {
-      fetchingData({ url: prefixUrl, headers:headers })
+      fetchingData({ url: prefixUrl, headers: headers })
     }
   }, [])
 

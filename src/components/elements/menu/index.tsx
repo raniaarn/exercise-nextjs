@@ -1,20 +1,16 @@
 import Link from 'next/link';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { useQueries } from '@/components/hooks/useQueries';
 import Cookies from 'js-cookie';
 import { useMutation } from '@/components/hooks/useMutation';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { UserContext } from '@/context/userContext';
 
 export const MenuPage = () => {
   const router = useRouter()
-  const { data } = useQueries({
-    prefixUrl: "https://paace-f178cafcae7b.nevacloud.io/api/user/me",
-    headers: {
-      'Authorization': `Bearer ${Cookies.get('user_token')}`
-    }
-  })
+  const userData = useContext(UserContext)
   const { mutate } = useMutation();
 
   const handleLogout = async () => {
@@ -37,7 +33,6 @@ export const MenuPage = () => {
     }
   };
 
-
   return (
     <><div className="flex mx-4 gap-8 items-center">
       <Link href='/' className="w-1/3 w-full font-bold">
@@ -55,7 +50,7 @@ export const MenuPage = () => {
       <div className="3-1/3 text-black ">
         <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-            {data?.data?.name}
+            {userData?.data.name}
           </MenuButton>
           <MenuList>
             <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
